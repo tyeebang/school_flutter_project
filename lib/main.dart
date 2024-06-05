@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -55,7 +56,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 11;
+  var _counter = '안녕하세요';
 
   void _incrementCounter() {
     setState(() {
@@ -64,7 +65,15 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
+      if(_counter == '안녕하세요') {
+        setState(() {
+          _counter = '반갑습니다';
+        });
+      } else {
+        setState(() {
+          _counter = '안녕하세요';
+        });
+      }
     });
   }
 
