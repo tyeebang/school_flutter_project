@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class Calculator extends StatefulWidget {
@@ -15,9 +17,11 @@ class CalculatorState extends State<Calculator> {
   // 계산
   void calculateFormula() {
     try {
-      result = make_result(formula).toString();
+      result = makingResult(formula).toString();
       formula = '';
-    } catch (e) {}
+    } catch (e) {
+      pop(context);
+    }
   }
 
   // 초기화
@@ -29,7 +33,7 @@ class CalculatorState extends State<Calculator> {
   }
 
   // 결괏값 제작
-  num make_result(String formula) {
+  num makingResult(String formula) {
     List<String> tokens = [];
     String currentToken = '';
     for (int i = 0; i < formula.length; i++) {
@@ -88,15 +92,42 @@ class CalculatorState extends State<Calculator> {
                 calculateFormula();
               } else if (buttonText == 'C') {
                 clearFormula();
+              } else if(buttonText == '0') {
+                if(formula == '0') {
+                  print('추가 불가');
+                } else {
+                  result = '';
+                  formula += buttonText;
+                }
+              } else if(buttonText == '.') {
+                result == '';
+                if(formula == '') {
+                  formula += '0';
+                  formula += buttonText;
+                } else if(formula.substring(formula.length - 1) == '.') {
+                  print('추가 불가');
+                } else {
+                  formula += buttonText;
+                }
               } else if (buttonText == '+' || buttonText == '-' || buttonText == '*' || buttonText == '/') {
                 if (result != '') {
                   formula += result;
                   result = '';
                   formula += buttonText;
-                } else if (formula == '') {
+                } else if (formula == '' || formula.substring(formula.length - 1) == '+' || formula.substring(formula.length - 1) == '-' || formula.substring(formula.length - 1) == '*' || formula.substring(formula.length - 1) == '/') {
                   print('추가 불가');
                 } else {
                   formula += buttonText;
+                }
+              } else if(buttonText == '<') {
+                try {
+                  if(result != '') {
+                    formula += result;
+                    result = '';
+                  }
+                  formula = formula.substring(0, formula.length - 1);
+                } catch (e) {
+                  print(e);
                 }
               } else {
                 result = '';
@@ -114,10 +145,61 @@ class CalculatorState extends State<Calculator> {
   }
 
   @override
+  Future pop(BuildContext context) {
+    return showDialog(context: context, builder: (context) => AlertDialog(
+      actions: [
+        TextButton(onPressed: () {
+          Navigator.of(context).pop();
+        }, child: Text('close', style: TextStyle(
+            fontSize: 24
+        ),))
+      ],
+      title: Text('Alert', style: TextStyle(
+          fontSize: 28
+      ),),
+      content: Text('올바른 계산식이 아니거나, 아까의 결괏값 그대로에요!', style: TextStyle(
+          fontSize: 24
+      ),),
+    ));
+  }
+
+  @override
+  Future closePop(BuildContext context) {
+    return showDialog(context: context, builder: (context) => AlertDialog(
+      actions: [
+        TextButton(onPressed: () {
+          formula = '';
+          result = '';
+          exit(0);
+        }, child: Text('예', style: TextStyle(
+            fontSize: 24
+        ),)),
+        TextButton(onPressed: () {
+          Navigator.of(context).pop();
+        }, child: Text('취소', style: TextStyle(
+            fontSize: 24
+        ),)),
+      ],
+      title: Text('Alert', style: TextStyle(
+          fontSize: 28
+      ),),
+      content: Text('정말로 종료하시겠어요?', style: TextStyle(
+          fontSize: 24
+      ),),
+    ));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Calculator'),
+        actions: [IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () {
+            closePop(context);
+          },
+        ),]
       ),
       body: Column(
         children: [
@@ -159,13 +241,14 @@ class CalculatorState extends State<Calculator> {
             children: [
               buildButton('.'),
               buildButton('0'),
-              buildButton('='),
+              buildButton('C'),
               buildButton('+'),
             ],
           ),
           Row(
             children: [
-              buildButton('C'),
+              buildButton('='),
+              buildButton('<')
             ],
           ),
         ],

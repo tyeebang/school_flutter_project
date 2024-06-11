@@ -12,7 +12,7 @@ class MyHomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            '계산기',
+            'Calculator',
             style: TextStyle(fontSize: 72, color: Colors.white),
           ),
           SizedBox(
@@ -27,7 +27,7 @@ class MyHomePage extends StatelessWidget {
                 print(result);
               },
               child: Text(
-                '시작',
+                'Start',
                 style: TextStyle(color: Colors.white, fontSize: 36),
               ),
               style: ButtonStyle(
