@@ -144,47 +144,47 @@ class CalculatorState extends State<Calculator> {
     );
   }
 
-  @override
   Future pop(BuildContext context) {
     return showDialog(context: context, builder: (context) => AlertDialog(
+      backgroundColor: Colors.deepPurpleAccent,
       actions: [
         TextButton(onPressed: () {
           Navigator.of(context).pop();
         }, child: Text('close', style: TextStyle(
-            fontSize: 24
+            fontSize: 24, color: Colors.white
         ),))
       ],
       title: Text('Alert', style: TextStyle(
-          fontSize: 28
+          fontSize: 28, color: Colors.white
       ),),
       content: Text('올바른 계산식이 아니거나, 아까의 결괏값 그대로에요!', style: TextStyle(
-          fontSize: 24
+          fontSize: 24, color: Colors.white
       ),),
     ));
   }
 
-  @override
   Future closePop(BuildContext context) {
     return showDialog(context: context, builder: (context) => AlertDialog(
+      backgroundColor: Colors.deepPurpleAccent,
       actions: [
         TextButton(onPressed: () {
           formula = '';
           result = '';
           exit(0);
         }, child: Text('예', style: TextStyle(
-            fontSize: 24
+            fontSize: 24, color: Colors.white
         ),)),
         TextButton(onPressed: () {
           Navigator.of(context).pop();
         }, child: Text('취소', style: TextStyle(
-            fontSize: 24
+            fontSize: 24, color: Colors.white
         ),)),
       ],
       title: Text('Alert', style: TextStyle(
-          fontSize: 28
+          fontSize: 28, color: Colors.white
       ),),
       content: Text('정말로 종료하시겠어요?', style: TextStyle(
-          fontSize: 24
+          fontSize: 24, color: Colors.white
       ),),
     ));
   }
@@ -193,13 +193,19 @@ class CalculatorState extends State<Calculator> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calculator'),
+        backgroundColor: Colors.deepPurpleAccent,
+        title: Text('Calculator', style: TextStyle(
+          color: Colors.white
+        ),),
         actions: [IconButton(
-          icon: Icon(Icons.close),
+          icon: Icon(Icons.close, color: Colors.white,),
           onPressed: () {
             closePop(context);
           },
-        ),]
+        ),],
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
       ),
       body: Column(
         children: [

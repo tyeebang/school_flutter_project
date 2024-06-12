@@ -6,7 +6,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white70,
+      backgroundColor: Colors.deepPurpleAccent,
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -32,7 +32,7 @@ class MyHomePage extends StatelessWidget {
               ),
               style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black12)),
+                      MaterialStateProperty.all<Color>(Colors.deepPurple)),
             ),
           )
         ],
